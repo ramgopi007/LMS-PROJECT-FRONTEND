@@ -1,20 +1,14 @@
-import { Routes, Route, Navigate } from "react-router-dom";
-import Signup from "../src/components/AuthenticationPages/SignUp";
-import Login from "../src/components/AuthenticationPages/Login";
+// src/App.jsx
+import AppRoutes from "./routes/AppRoutes";
+import { ToastContainer } from "react-toastify";
 
-function App() {
+const App = () => {
   return (
-    <Routes>
-      {/* Default Route (Redirect to Signup) */}
-      <Route path="/" element={<Navigate to="/signup" />} />
-
-      {/* Signup Page */}
-      <Route path="/signup" element={<Signup />} />
-
-      {/* Login Page */}
-      <Route path="/login" element={<Login />} />
-    </Routes>
+    <>
+      <ToastContainer />
+      <AppRoutes />   {/* All routing MUST happen here */}
+    </>
   );
-}
+};
 
 export default App;
