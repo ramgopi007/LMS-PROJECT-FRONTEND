@@ -1,31 +1,24 @@
 // src/services/axiosInstance.js
+
 import axios from "axios";
 
-import { getAuthToken } from "./tokenHandler";
-
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000",
-  withCredentials: true, // allow cookies if backend uses them
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/lms",
+  withCredentials: true, // THIS sends cookies automatically
 });
 
-// Automatically attach token to every request
+// Request interceptor — no token required (cookie is automatic)
 API.interceptors.request.use(
   (config) => {
-    const token = getAuthToken();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
+    return config; // No Authorization header needed
   },
   (error) => Promise.reject(error)
 );
 
-// Optional: global error handler
+// Response interceptor — optional for errors
 API.interceptors.response.use(
   (response) => response,
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 export default API;

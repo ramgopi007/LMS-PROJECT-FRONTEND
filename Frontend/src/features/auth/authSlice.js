@@ -1,66 +1,81 @@
 // src/features/auth/authSlice.js
 import { createSlice } from "@reduxjs/toolkit";
-import { registerUser, loginUser } from "./authThunks";
-import { setAuthToken, clearAuthToken } from "../../services/tokenHandler";
+import {
+  loginUser,
+  registerUser,
+  fetchProfile,
+  logoutUser,
+} from "./authThunks";
 
 const initialState = {
   user: null,
-  token: localStorage.getItem("token") || null,
+  isAuthenticated: false,
   loading: false,
   error: null,
-  success: false,
 };
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-      clearAuthToken();
-    },
-  },
+  reducers: {},
+
   extraReducers: (builder) => {
+    // LOGIN USER
     builder
-
-      // REGISTER USER
-      .addCase(registerUser.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-        state.success = false;
-      })
-      .addCase(registerUser.fulfilled, (state, action) => {
-        state.loading = false;
-        state.success = true;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        setAuthToken(action.payload.token);
-      })
-      .addCase(registerUser.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload;
-      })
-
-      // LOGIN USER
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
-        state.success = false;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.success = true;
         state.user = action.payload.user;
-        state.token = action.payload.token;
-        setAuthToken(action.payload.token);
+        state.isAuthenticated = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
+        state.isAuthenticated = false;
       });
+
+    // REGISTER USER
+    builder
+      .addCase(registerUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.isAuthenticated = true; // auto login after signup (optional)
+      })
+      .addCase(registerUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.isAuthenticated = false;
+      });
+
+    // FETCH PROFILE (cookie login restore)
+    builder
+      .addCase(fetchProfile.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.isAuthenticated = true;
+      })
+      .addCase(fetchProfile.rejected, (state) => {
+        state.loading = false;
+        state.user = null;
+        state.isAuthenticated = false;
+      });
+
+    // LOGOUT USER
+    builder.addCase(logoutUser.fulfilled, (state) => {
+      state.user = null;
+      state.isAuthenticated = false;
+    });
   },
 });
 
-export const { logout } = authSlice.actions;
 export default authSlice.reducer;

@@ -1,23 +1,13 @@
 // src/services/tokenHandler.js
 
-// Save JWT token to localStorage
-export const setAuthToken = (token) => {
-  if (token) {
-    localStorage.setItem("token", token);
-  }
-};
+// No storing or reading JWT token — cookie is HTTP-only
 
-// Get token
-export const getAuthToken = () => {
-  return localStorage.getItem("token");
-};
-
-// Remove token on logout
+// Logout action only handled by backend clearing cookie
 export const clearAuthToken = () => {
-  localStorage.removeItem("token");
+  console.warn("Token is stored in HTTP-only cookies. Logout is handled by backend.");
 };
 
-// Restore token on app load
-export const loadAuthToken = () => {
-  return localStorage.getItem("token");
+// Optional helper — checks *presence* of any cookies (not 100% reliable)
+export const isAuthenticated = () => {
+  return document.cookie !== ""; 
 };
