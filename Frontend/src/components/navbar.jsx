@@ -20,8 +20,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="w-full bg-[#0F1629] border-b border-[#1E253A] px-4 py-3 flex items-center justify-between relative">
-
+    <nav className="w-full bg-[#0F1629] border-b border-[#1E253A] px-4 py-3 flex items-center justify-between relative z-50">
       {/* Left - Logo + App Name */}
       <div className="flex items-center gap-3">
         <img
@@ -47,8 +46,13 @@ const Navbar = () => {
       {/* Right Section */}
       <div className="flex items-center gap-6">
 
-        {/* Notification icon */}
-        <FiBell className="text-gray-300 hover:text-white text-xl cursor-pointer" />
+        {/* SIGN UP BUTTON */}
+        <button
+          onClick={() => navigate("/signup")}
+          className="hidden sm:block px-5 py-2 rounded-lg bg-gradient-to-r from-[#6366F1] to-[#818CF8] text-white font-medium hover:from-[#5558e8] hover:to-[#6b75ff] transition"
+        >
+          Sign Up
+        </button>
 
         {/* Profile + Click Dropdown */}
         <div className="relative" ref={dropdownRef}>
@@ -94,7 +98,6 @@ const Navbar = () => {
             </div>
           )}
         </div>
-
       </div>
     </nav>
   );
