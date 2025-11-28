@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { FiSearch, FiBell } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
