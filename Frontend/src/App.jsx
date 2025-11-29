@@ -6,6 +6,7 @@ import Settings from "./pages/authentication/settings";
 import Profile from "./pages/authentication/profile";
 import Home from "./components/Home";
 import { Routes,Route } from "react-router-dom";
+import InstructorDashboard from "./pages/instructor/dashboard";
 function App() {
   return (
     <>
@@ -18,6 +19,7 @@ function App() {
         <Route path="/logout" element={<Logout />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/Profile" element={<Profile />} />
+        <Route path="/instructor/dashboard" element={<InstructorDashboard/>} />
       </Routes>
     </>
   );

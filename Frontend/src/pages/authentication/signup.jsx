@@ -1,18 +1,52 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import axios from "axios";
 
 const Signup = () => {
   const navigate = useNavigate();
+
+  // Form States
+  const [firstName, setFirstname] = useState("");
+  const [lastName, setLastname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student"); // default role
 
   const handleLoginClick = (e) => {
     e.preventDefault();
     navigate("/login");
   };
 
-  const handleSignupSubmit = (e) => {
-    e.preventDefault();
-    // Here you can add your signup logic (e.g., API call)
-    console.log("User signed up successfully!");
-    navigate("/login"); // Navigate to Login page after successful signup
+  const handleSignupSubmit = async (e) => {
+    e.preventDefault(); /* 👉 Stops the page from refreshing so you can run your own code. */
+
+    try {
+      const payload = {
+        firstName,
+        lastName,
+        email,
+        password,
+        role,
+      };
+
+      const response = await axios.post(
+        "http://localhost:5000/lms/auth/signup",
+        payload,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("Signup success:", response.data);
+
+      // Navigate to login page after success
+      navigate("/login");
+    } catch (error) {
+      console.error("Signup error:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "Signup failed. Try again!");
+    }
   };
 
   return (
@@ -32,16 +66,14 @@ const Signup = () => {
           <form onSubmit={handleSignupSubmit} className="space-y-4">
             {/* First Name */}
             <div>
-              <label
-                htmlFor="firstName"
-                className="block text-sm font-medium text-gray-600 mb-1"
-              >
+              <label className="block text-sm font-medium text-gray-600 mb-1">
                 First Name
               </label>
               <input
                 type="text"
-                id="firstName"
                 placeholder="Enter your first name"
+                value={firstName}
+                onChange={(e) => setFirstname(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 required
               />
@@ -49,16 +81,14 @@ const Signup = () => {
 
             {/* Last Name */}
             <div>
-              <label
-                htmlFor="lastName"
-                className="block text-sm font-medium text-gray-600 mb-1"
-              >
+              <label className="block text-sm font-medium text-gray-600 mb-1">
                 Last Name
               </label>
               <input
                 type="text"
-                id="lastName"
                 placeholder="Enter your last name"
+                value={lastName}
+                onChange={(e) => setLastname(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 required
               />
@@ -66,17 +96,14 @@ const Signup = () => {
 
             {/* Email */}
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-600 mb-1"
-              >
+              <label className="block text-sm font-medium text-gray-600 mb-1">
                 Email
               </label>
-
               <input
                 type="email"
-                id="email"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 required
               />
@@ -84,16 +111,14 @@ const Signup = () => {
 
             {/* Password */}
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-600 mb-1"
-              >
+              <label className="block text-sm font-medium text-gray-600 mb-1">
                 Password
               </label>
               <input
                 type="password"
-                id="password"
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 required
               />
@@ -101,19 +126,19 @@ const Signup = () => {
 
             {/* Role */}
             <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-600 mb-1"
-              >
+              <label className="block text-sm font-medium text-gray-600 mb-1">
                 Role
               </label>
-              <input
-                type="password"
-                id="Role"
-                placeholder="Enter your Role"
+
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 required
-              />
+              >
+                <option value="student">Student</option>
+                <option value="instructor">Instructor</option>
+              </select>
             </div>
 
             {/* Submit Button */}
@@ -146,4 +171,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Signup;
