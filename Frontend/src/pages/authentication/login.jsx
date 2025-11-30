@@ -36,7 +36,7 @@ const Login = () => {
       // Redirect based on role
       if (data.user.role === "instructor") {
         navigate("/instructor/dashboard");
-      } else if (data.user.role === "student") {
+      } else if (data.user.role === "Student") {
         navigate("/student/dashboard");
       } else {
         alert("Unknown role");

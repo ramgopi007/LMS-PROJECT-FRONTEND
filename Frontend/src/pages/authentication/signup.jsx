@@ -10,7 +10,7 @@ const Signup = () => {
   const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("student"); // default role
+  const [role, setRole] = useState("Student"); // default role
 
   const handleLoginClick = (e) => {
     e.preventDefault();
@@ -136,7 +136,7 @@ const Signup = () => {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
                 required
               >
-                <option value="student">Student</option>
+                <option value="Student">Student</option>
                 <option value="instructor">Instructor</option>
               </select>
             </div>

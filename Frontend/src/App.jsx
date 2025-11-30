@@ -7,6 +7,7 @@ import Profile from "./pages/authentication/profile";
 import Home from "./components/Home";
 import { Routes,Route } from "react-router-dom";
 import InstructorDashboard from "./pages/instructor/dashboard";
+import StudentDashboard from "./pages/student/dashboard";
 function App() {
   return (
     <>
@@ -20,6 +21,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/instructor/dashboard" element={<InstructorDashboard/>} />
+        <Route path="/student/dashboard" element={<StudentDashboard/>}></Route>
       </Routes>
     </>
   );
