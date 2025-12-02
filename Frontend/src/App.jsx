@@ -1,7 +1,6 @@
 import Login from "./pages/authentication/login";
 import Signup from "./pages/authentication/signup";
 import Logout from "./pages/authentication/logout";
-/* import Navbar from "./components/navbar"; */
 import Settings from "./pages/authentication/settings";
 import Profile from "./pages/authentication/profile";
 import Home from "./components/Home";
@@ -11,7 +10,6 @@ import StudentDashboard from "./pages/student/dashboard";
 function App() {
   return (
     <>
-     {/*  <Navbar /> */}
 
       <Routes>
         <Route path="/" element={<Home/>}></Route>
@@ -21,7 +19,7 @@ function App() {
         <Route path="/settings" element={<Settings />} />
         <Route path="/Profile" element={<Profile />} />
         <Route path="/instructor/dashboard" element={<InstructorDashboard/>} />
-        <Route path="/student/dashboard" element={<StudentDashboard/>}></Route>
+        <Route path="/student/dashboard" element={<StudentDashboard/>} />    
       </Routes>
     </>
   );
