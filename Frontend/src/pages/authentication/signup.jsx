@@ -10,7 +10,9 @@ const Signup = () => {
   const [lastName, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState("Student"); // default role
+  const [role, setRole] = useState("Student"); 
+  const [skills, setSkills] = useState("");   // ⭐ New
+  const [bio, setBio] = useState("");         // ⭐ New
 
   const handleLoginClick = (e) => {
     e.preventDefault();
@@ -18,7 +20,7 @@ const Signup = () => {
   };
 
   const handleSignupSubmit = async (e) => {
-    e.preventDefault(); /* 👉 Stops the page from refreshing so you can run your own code. */
+    e.preventDefault(); 
 
     try {
       const payload = {
@@ -27,6 +29,8 @@ const Signup = () => {
         email,
         password,
         role,
+        skills,  // ⭐ New
+        bio,     // ⭐ New
       };
 
       const response = await axios.post(
@@ -40,8 +44,6 @@ const Signup = () => {
       );
 
       console.log("Signup success:", response.data);
-
-      // Navigate to login page after success
       navigate("/login");
     } catch (error) {
       console.error("Signup error:", error.response?.data || error.message);
@@ -52,23 +54,21 @@ const Signup = () => {
   return (
     <>
       <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-br from-blue-50 to-blue-100 px-4">
-        {/* Logo / App Name */}
+
         <h1 className="text-4xl md:text-5xl font-extrabold text-blue-700 mb-8 tracking-wide">
           Next<span className="text-blue-500">Learn</span>
         </h1>
 
-        {/* Signup Form Container */}
         <div className="w-full max-w-md bg-white shadow-lg rounded-2xl p-8">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
             Create Your Account
           </h2>
 
           <form onSubmit={handleSignupSubmit} className="space-y-4">
+
             {/* First Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
-                First Name
-              </label>
+              <label className="block text-sm font-medium text-gray-600 mb-1">First Name</label>
               <input
                 type="text"
                 placeholder="Enter your first name"
@@ -81,9 +81,7 @@ const Signup = () => {
 
             {/* Last Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
-                Last Name
-              </label>
+              <label className="block text-sm font-medium text-gray-600 mb-1">Last Name</label>
               <input
                 type="text"
                 placeholder="Enter your last name"
@@ -96,9 +94,7 @@ const Signup = () => {
 
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
-                Email
-              </label>
+              <label className="block text-sm font-medium text-gray-600 mb-1">Email</label>
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -111,9 +107,7 @@ const Signup = () => {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
-                Password
-              </label>
+              <label className="block text-sm font-medium text-gray-600 mb-1">Password</label>
               <input
                 type="password"
                 placeholder="Enter your password"
@@ -126,10 +120,7 @@ const Signup = () => {
 
             {/* Role */}
             <div>
-              <label className="block text-sm font-medium text-gray-600 mb-1">
-                Role
-              </label>
-
+              <label className="block text-sm font-medium text-gray-600 mb-1">Role</label>
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
@@ -141,6 +132,33 @@ const Signup = () => {
               </select>
             </div>
 
+            {/* ⭐ Skills */}
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Skills
+              </label>
+              <input
+                type="text"
+                placeholder="E.g. React, Node.js, UI/UX..."
+                value={skills}
+                onChange={(e) => setSkills(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              />
+            </div>
+
+            {/* ⭐ Bio */}
+            <div>
+              <label className="block text-sm font-medium text-gray-600 mb-1">
+                Bio
+              </label>
+              <textarea
+                placeholder="Tell us something about yourself..."
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg h-24 resize-none focus:ring-2 focus:ring-blue-400 focus:outline-none"
+              ></textarea>
+            </div>
+
             {/* Submit Button */}
             <button
               type="submit"
@@ -150,19 +168,14 @@ const Signup = () => {
             </button>
           </form>
 
-          {/* Already have an account */}
           <p className="text-center text-sm text-gray-600 mt-6">
             Already have an account?{" "}
-            <button
-              onClick={handleLoginClick}
-              className="text-blue-500 hover:underline"
-            >
+            <button onClick={handleLoginClick} className="text-blue-500 hover:underline">
               Log in
             </button>
           </p>
         </div>
 
-        {/* Footer */}
         <p className="mt-8 text-xs text-gray-500">
           © {new Date().getFullYear()} NextLearn. All rights reserved.
         </p>

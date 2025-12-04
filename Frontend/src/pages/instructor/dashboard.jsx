@@ -9,21 +9,22 @@ import {
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
+// IMPORT YOUR NEW HOME COMPONENT
+import InstructorHome from "../instructor/InstructorHome";
+
 const InstructorDashboard = () => {
   const [active, setActive] = useState("home");
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // ❌ REMOVE TOKEN FROM COOKIES (Not localStorage)
-    document.cookie =
-      "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     navigate("/login");
   };
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar */}
+      
+      {/* SIDEBAR */}
       <aside className="w-64 bg-gray-900 text-gray-200 flex flex-col justify-between">
         
         <div>
@@ -84,19 +85,16 @@ const InstructorDashboard = () => {
             </div>
           </div>
 
-          <FiLogOut
-            onClick={handleLogout}
-            className="cursor-pointer hover:text-red-400"
-            size={22}
-          />
+          <FiLogOut onClick={handleLogout} className="cursor-pointer hover:text-red-400" size={22} />
         </div>
       </aside>
 
-      {/* Main Content */}
+      {/* MAIN CONTENT */}
       <main className="flex-1 p-10 bg-gray-100">
-        {active === "home" && (
-          <h1 className="text-3xl font-bold">Welcome to Instructor Dashboard</h1>
-        )}
+
+        {/* CALLING THE HOME COMPONENT HERE */}
+        {active === "home" && <InstructorHome />}
+
         {active === "createCourse" && (
           <h1 className="text-3xl font-bold">Create a New Course</h1>
         )}
