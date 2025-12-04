@@ -9,7 +9,6 @@ const InstructorHome = () => {
       const res = await axios.get("http://localhost:5000/lms/instructor/me", {
         withCredentials: true,
       });
-
       setInstructor(res.data);
     } catch (error) {
       console.error("Error fetching instructor profile:", error);
@@ -24,31 +23,23 @@ const InstructorHome = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-4">
-        Welcome, {instructor.name} 👋
-      </h1>
+      <h1 className="text-3xl font-bold mb-4">Welcome, {instructor.name} 👋</h1>
 
       <div className="bg-white p-6 rounded-lg shadow-md max-w-xl">
-        {/* Profile Image */}
         <img
-          src={instructor.profilePicture}
+          src={instructor.profilePicture || "https://i.pravatar.cc/150"}
           alt="Profile"
           className="w-24 h-24 rounded-full mb-4"
         />
 
-        {/* Bio */}
         <h2 className="text-xl font-semibold mb-2">Bio</h2>
         <p className="text-gray-700 mb-4">{instructor.bio || "No bio added."}</p>
 
-        {/* Skills */}
         <h2 className="text-xl font-semibold mb-2">Skills</h2>
         <div className="flex flex-wrap gap-2">
-          {instructor.skills.length > 0 ? (
+          {Array.isArray(instructor.skills) && instructor.skills.length > 0 ? (
             instructor.skills.map((skill, idx) => (
-              <span
-                key={idx}
-                className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm"
-              >
+              <span key={idx} className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">
                 {skill}
               </span>
             ))

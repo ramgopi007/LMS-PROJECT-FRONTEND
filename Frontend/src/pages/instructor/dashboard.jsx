@@ -1,20 +1,26 @@
 import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+
 import {
   FiHome,
-  FiBookOpen,
-  FiEdit3,
   FiFilePlus,
   FiList,
   FiLogOut,
 } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
 
-// IMPORT YOUR NEW HOME COMPONENT
-import InstructorHome from "../instructor/InstructorHome";
+import InstructorHome from "../../components/instructor/InstructorHome";
+import CreateCourse from "../../components/instructor/CreateCourse";
+import MyCourses from "../../components/instructor/MyCourses";
+import UpdateCourse from "../../components/instructor/UpdateCourse";
 
 const InstructorDashboard = () => {
   const [active, setActive] = useState("home");
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Read ?edit=courseId from URL
+  const queryParams = new URLSearchParams(location.search);
+  const editCourseId = queryParams.get("edit");
 
   const handleLogout = () => {
     document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
@@ -23,10 +29,8 @@ const InstructorDashboard = () => {
 
   return (
     <div className="flex min-h-screen">
-      
       {/* SIDEBAR */}
       <aside className="w-64 bg-gray-900 text-gray-200 flex flex-col justify-between">
-        
         <div>
           <div className="flex items-center gap-3 px-6 py-5 border-b border-gray-700">
             <div className="bg-white text-black font-bold p-3 rounded-lg">NL</div>
@@ -37,7 +41,10 @@ const InstructorDashboard = () => {
             <button
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg 
                 ${active === "home" ? "bg-blue-600 text-white" : "hover:bg-gray-800"}`}
-              onClick={() => setActive("home")}
+              onClick={() => {
+                setActive("home");
+                navigate("/instructor/dashboard");
+              }}
             >
               <FiHome size={18} /> Home
             </button>
@@ -45,31 +52,21 @@ const InstructorDashboard = () => {
             <button
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg 
                 ${active === "createCourse" ? "bg-blue-600 text-white" : "hover:bg-gray-800"}`}
-              onClick={() => setActive("createCourse")}
+              onClick={() => {
+                setActive("createCourse");
+                navigate("/instructor/dashboard");
+              }}
             >
               <FiFilePlus size={18} /> Create Course
             </button>
 
             <button
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg 
-                ${active === "createLesson" ? "bg-blue-600 text-white" : "hover:bg-gray-800"}`}
-              onClick={() => setActive("createLesson")}
-            >
-              <FiEdit3 size={18} /> Create Lesson
-            </button>
-
-            <button
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg 
-                ${active === "updateCourse" ? "bg-blue-600 text-white" : "hover:bg-gray-800"}`}
-              onClick={() => setActive("updateCourse")}
-            >
-              <FiBookOpen size={18} /> Update Course
-            </button>
-
-            <button
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg 
                 ${active === "myCourses" ? "bg-blue-600 text-white" : "hover:bg-gray-800"}`}
-              onClick={() => setActive("myCourses")}
+              onClick={() => {
+                setActive("myCourses");
+                navigate("/instructor/dashboard");
+              }}
             >
               <FiList size={18} /> My Courses
             </button>
@@ -78,7 +75,7 @@ const InstructorDashboard = () => {
 
         <div className="px-4 py-4 border-t border-gray-700 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="https://i.pravatar.cc/50" className="w-10 h-10 rounded-full" />
+            <img src="https://i.pravatar.cc/50" className="w-10 h-10 rounded-full" alt="avatar" />
             <div>
               <p className="font-medium">Instructor</p>
               <p className="text-xs text-gray-400">NextLearn</p>
@@ -91,22 +88,16 @@ const InstructorDashboard = () => {
 
       {/* MAIN CONTENT */}
       <main className="flex-1 p-10 bg-gray-100">
-
-        {/* CALLING THE HOME COMPONENT HERE */}
-        {active === "home" && <InstructorHome />}
-
-        {active === "createCourse" && (
-          <h1 className="text-3xl font-bold">Create a New Course</h1>
-        )}
-        {active === "createLesson" && (
-          <h1 className="text-3xl font-bold">Create a Lesson</h1>
-        )}
-        {active === "updateCourse" && (
-          <h1 className="text-3xl font-bold">Update Your Courses</h1>
-        )}
-        {active === "myCourses" && (
-          <h1 className="text-3xl font-bold">Your Published Courses</h1>
-        )}
+        {/* If URL contains edit ID → show UpdateCourse inside dashboard */}
+        {editCourseId ? (
+          <UpdateCourse courseId={editCourseId} />
+        ) : active === "home" ? (
+          <InstructorHome />
+        ) : active === "createCourse" ? (
+          <CreateCourse />
+        ) : active === "myCourses" ? (
+          <MyCourses />
+        ) : null}
       </main>
     </div>
   );
