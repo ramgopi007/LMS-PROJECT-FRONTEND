@@ -8,10 +8,10 @@ import {
   FiLogOut,
 } from "react-icons/fi";
 
-import InstructorHome from "../../components/instructor/InstructorHome";
-import CreateCourse from "../../components/instructor/CreateCourse";
-import MyCourses from "../../components/instructor/MyCourses";
-import UpdateCourse from "../../components/instructor/UpdateCourse";
+import InstructorHome from "../instructor/InstructorHome";
+import CreateCourse from "../instructor/CreateCourse";
+import MyCourses from "../instructor/MyCourses";
+import UpdateCourse from "../instructor/UpdateCourse";
 
 const InstructorDashboard = () => {
   const [active, setActive] = useState("home");

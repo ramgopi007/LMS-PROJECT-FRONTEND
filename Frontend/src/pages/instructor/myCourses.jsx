@@ -41,7 +41,8 @@ const MyCourses = () => {
           <div key={course._id} className="bg-white p-5 shadow rounded-lg">
             <img src={course.thumbnail || "https://via.placeholder.com/400x200"} alt="thumbnail" className="h-40 w-full object-cover rounded" />
             <h2 className="text-xl font-bold mt-3">{course.title}</h2>
-            <p className="text-gray-700">{course.category}</p>
+            <h3 className="text-xl font-bold mt-2">{course.category}</h3>
+            <p className="text-gray-700">{course.description}</p>
 
             <div className="mt-4 flex gap-3">
               <button onClick={() => navigate(`/instructor/dashboard?edit=${course._id}`)} className="w-1/2 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded">
