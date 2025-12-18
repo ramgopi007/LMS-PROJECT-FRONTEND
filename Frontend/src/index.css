@@ -9,3 +9,24 @@
 .animate-floating {
   animation: floating 3s ease-in-out infinite;
 }
+
+/* ================================
+   GLOBAL COMPONENT STYLES (Udemy UI)
+   ================================ */
+@layer components {
+  .btn-blue {
+    @apply flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition;
+  }
+
+  .btn-red {
+    @apply flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm transition;
+  }
+
+  .btn-green {
+    @apply flex items-center gap-1 bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm transition;
+  }
+
+  .btn-dark {
+    @apply flex items-center gap-1 bg-gray-800 hover:bg-gray-900 text-white px-3 py-1 rounded text-sm transition;
+  }
+}
