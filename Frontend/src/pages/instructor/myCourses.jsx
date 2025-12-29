@@ -100,12 +100,16 @@ const MyCourses = () => {
         <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">
           My Courses
         </h1>
-        <p className="text-gray-500 mt-2">Manage your curriculum and student engagement.</p>
+        <p className="text-gray-500 mt-2">
+          Manage your curriculum and student engagement.
+        </p>
       </header>
 
       {courses.length === 0 ? (
         <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-gray-200">
-          <p className="text-gray-400 text-lg">No courses created yet. Start your journey today!</p>
+          <p className="text-gray-400 text-lg">
+            No courses created yet. Start your journey today!
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -117,19 +121,22 @@ const MyCourses = () => {
               {/* THUMBNAIL AREA */}
               <div className="relative aspect-video overflow-hidden">
                 <img
-                  src={course.thumbnail || "https://via.placeholder.com/400x200"}
+                  src={
+                    course.thumbnail || "https://via.placeholder.com/400x200"
+                  }
                   alt={course.title}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                
+
                 {/* Visual Overlays */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
-                
+
                 {/* Stats Badges */}
                 <div className="absolute bottom-3 left-3 right-3 flex justify-between items-center">
                   <div className="flex gap-2">
                     <span className="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-md flex items-center gap-1">
-                      <FiStar className="text-yellow-400 fill-yellow-400" /> {course.rating || 4.6}
+                      <FiStar className="text-yellow-400 fill-yellow-400" />{" "}
+                      {course.rating || 4.6}
                     </span>
                     <span className="bg-white/20 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded-md flex items-center gap-1">
                       <FiUsers /> {course.students || "1.2k"}
@@ -152,8 +159,11 @@ const MyCourses = () => {
 
                 {/* ACTION BUTTONS GRID */}
                 <div className="grid grid-cols-2 gap-2 mt-6">
+
                   <button
-                    onClick={() => navigate(`/instructor/dashboard?edit=${course._id}`)}
+                    onClick={() =>
+                      navigate(`/instructor/dashboard?edit=${course._id}`)
+                    }
                     className="flex items-center justify-center gap-2 py-2 px-3 bg-blue-50 text-blue-600 rounded-xl text-sm font-semibold hover:bg-blue-600 hover:text-white transition-all"
                   >
                     <FiEdit size={14} /> Edit
@@ -167,7 +177,9 @@ const MyCourses = () => {
                   </button>
 
                   <button
-                    onClick={() => navigate(`/instructor/dashboard?addLesson=${course._id}`)}
+                    onClick={() =>
+                      navigate(`/instructor/dashboard?addLesson=${course._id}`)
+                    }
                     className="flex items-center justify-center gap-2 py-2 px-3 bg-green-50 text-green-600 rounded-xl text-sm font-semibold hover:bg-green-600 hover:text-white transition-all"
                   >
                     <FiPlusCircle size={14} /> Add Lesson
@@ -176,14 +188,20 @@ const MyCourses = () => {
                   <button
                     onClick={() => toggleLessons(course._id)}
                     className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-sm font-semibold transition-all ${
-                      expandedCourse === course._id 
-                        ? "bg-gray-800 text-white" 
+                      expandedCourse === course._id
+                        ? "bg-gray-800 text-white"
                         : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                     }`}
                   >
-                    {expandedCourse === course._id ? <FiChevronUp /> : <FiChevronDown />}
+                    {expandedCourse === course._id ? (
+                      <FiChevronUp />
+                    ) : (
+                      <FiChevronDown />
+                    )}
                     Lessons
                   </button>
+
+                  
                 </div>
 
                 {/* EXPANDABLE LESSONS LIST */}
@@ -202,7 +220,10 @@ const MyCourses = () => {
                             <div className="flex justify-between items-center">
                               <div className="flex-1 pr-4">
                                 <p className="font-bold text-xs text-gray-700">
-                                  <span className="text-blue-500 mr-1">{String(i + 1).padStart(2, '0')}</span> {lesson.title}
+                                  <span className="text-blue-500 mr-1">
+                                    {String(i + 1).padStart(2, "0")}
+                                  </span>{" "}
+                                  {lesson.title}
                                 </p>
                                 <p className="text-[10px] text-gray-400 mt-1 uppercase font-medium">
                                   Duration: {lesson.duration}s
@@ -211,19 +232,33 @@ const MyCourses = () => {
 
                               <div className="flex gap-2">
                                 <button
-                                  onClick={() => setPlayingLesson(playingLesson === lesson._id ? null : lesson._id)}
+                                  onClick={() =>
+                                    setPlayingLesson(
+                                      playingLesson === lesson._id
+                                        ? null
+                                        : lesson._id
+                                    )
+                                  }
                                   className="p-1.5 text-green-600 bg-white rounded-lg shadow-sm hover:bg-green-600 hover:text-white transition-all"
                                 >
                                   <FiPlay size={12} />
                                 </button>
+
                                 <button
-                                  onClick={() => navigate(`/instructor/dashboard?editLesson=${lesson._id}&course=${course._id}`)}
+                                  onClick={() =>
+                                    navigate(
+                                      `/instructor/dashboard?editLesson=${lesson._id}`
+                                    )
+                                  }
                                   className="p-1.5 text-blue-600 bg-white rounded-lg shadow-sm hover:bg-blue-600 hover:text-white transition-all"
                                 >
                                   <FiEdit size={12} />
                                 </button>
+
                                 <button
-                                  onClick={() => deleteLesson(lesson._id, course._id)}
+                                  onClick={() =>
+                                    deleteLesson(lesson._id, course._id)
+                                  }
                                   className="p-1.5 text-red-600 bg-white rounded-lg shadow-sm hover:bg-red-600 hover:text-white transition-all"
                                 >
                                   <FiTrash2 size={12} />

@@ -3,20 +3,24 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { FiHome, FiFilePlus, FiList, FiLogOut, FiMenu, FiX, FiChevronRight } from "react-icons/fi";
 
+// Components
 import InstructorHome from "../instructor/InstructorHome";
 import CreateCourse from "../instructor/CreateCourse";
-import MyCourses from "../instructor/MyCourses";
+import MyCourses from "../instructor/myCourses";
 import UpdateCourse from "../instructor/UpdateCourse";
 import AddLesson from "../instructor/addLesson";
+import UpdateLesson from "../instructor/updateLesson"; // 1. Imported the new component
 
 const InstructorDashboard = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // For responsiveness
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // URL Parameter Detection
   const params = new URLSearchParams(location.search);
   const editCourseId = params.get("edit");
   const addLessonCourseId = params.get("addLesson");
+  const editLessonId = params.get("editLesson"); // 2. Captured editLesson ID
 
   const [active, setActive] = useState("home");
   const [instructor, setInstructor] = useState(null);
@@ -37,17 +41,17 @@ const InstructorDashboard = () => {
     fetchInstructor();
   }, []);
 
+  // Guard Clause: Prevents resetting the URL if we are in an "Edit" or "Add" sub-view
   useEffect(() => {
-    if (editCourseId || addLessonCourseId) return;
+    if (editCourseId || addLessonCourseId || editLessonId) return; 
     if (active === "home") navigate("/instructor/dashboard");
-  }, [active, editCourseId, addLessonCourseId, navigate]);
+  }, [active, editCourseId, addLessonCourseId, editLessonId, navigate]);
 
   const handleLogout = () => {
     document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
     navigate("/login");
   };
 
-  // Modernized Nav Button Styling
   const navBtn = (name) =>
     `w-full flex items-center justify-between px-4 py-3.5 rounded-xl transition-all duration-300 group ${
       active === name
@@ -58,7 +62,7 @@ const InstructorDashboard = () => {
   return (
     <div className="flex min-h-screen bg-slate-50 font-sans">
       
-      {/* MOBILE HAMBURGER (Visible only on small screens) */}
+      {/* MOBILE HAMBURGER */}
       <button 
         className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-slate-900 text-white rounded-lg"
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -151,7 +155,6 @@ const InstructorDashboard = () => {
 
       {/* MAIN CONTENT AREA */}
       <main className="flex-1 h-screen overflow-y-auto custom-scrollbar">
-        {/* Top Header Bar (Optional but looks great) */}
         <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-4 hidden lg:flex justify-between items-center">
             <h2 className="text-slate-400 font-medium text-sm">
               Welcome back, <span className="text-slate-900 font-bold">{instructor?.name?.split(' ')[0] || "Instructor"}!</span>
@@ -162,10 +165,13 @@ const InstructorDashboard = () => {
         </header>
 
         <div className="p-4 md:p-8 lg:p-12 max-w-7xl mx-auto">
-          {/* Transition wrapper logic preserved */}
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
+            
+            {/* CONDITIONAL RENDERING LOGIC */}
             {editCourseId ? (
               <UpdateCourse courseId={editCourseId} />
+            ) : editLessonId ? (
+              <UpdateLesson lessonId={editLessonId} /> // 3. Renders UpdateLesson when param is present
             ) : addLessonCourseId ? (
               <AddLesson courseId={addLessonCourseId} />
             ) : active === "home" ? (
@@ -178,6 +184,7 @@ const InstructorDashboard = () => {
             ) : active === "myCourses" ? (
               <MyCourses />
             ) : null}
+            
           </div>
         </div>
       </main>
